@@ -1,962 +1,374 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[Nombre de la Empresa] | Bienes Raíces</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary: #0f172a;
-      --primary-light: #1e293b;
-      --accent: #b8860b;
-      --accent-hover: #9a7209;
-      --text: #0f172a;
-      --text-muted: #64748b;
-      --bg: #f8fafc;
-      --white: #ffffff;
-      --border: #e2e8f0;
-      --shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
-      --shadow-lg: 0 20px 50px rgba(15, 23, 42, 0.1);
-      --radius: 8px;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      color: var(--text);
-      line-height: 1.65;
-      background: var(--bg);
-      font-size: 16px;
-    }
-
-    h1, h2, h3, h4 {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-weight: 600;
-      line-height: 1.2;
-      color: var(--primary);
-    }
-
-    a { text-decoration: none; color: inherit; }
-    img { max-width: 100%; display: block; }
-
-    .container {
-      width: 100%;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 32px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 16px 36px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      letter-spacing: 0.3px;
-      transition: all 0.25s ease;
-      cursor: pointer;
-      border: none;
-      font-family: inherit;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-    .btn-primary:hover {
-      background: var(--primary-light);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.2);
-    }
-
-    .btn-accent {
-      background: var(--accent);
-      color: white;
-    }
-    .btn-accent:hover {
-      background: var(--accent-hover);
-      transform: translateY(-2px);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 2px solid white;
-      color: white;
-    }
-    .btn-outline:hover {
-      background: white;
-      color: var(--primary);
-    }
-
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      background: rgba(255,255,255,0.97);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 88px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      font-weight: 700;
-      font-size: 1.4rem;
-      color: var(--primary);
-      letter-spacing: -0.3px;
-    }
-
-    .logo-icon {
-      width: 48px;
-      height: 48px;
-      background: var(--primary);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.3rem;
-      font-weight: 700;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 40px;
-    }
-
-    nav a {
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      transition: color 0.2s;
-    }
-    nav a:hover { color: var(--primary); }
-
-    .mobile-toggle {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.6rem;
-      cursor: pointer;
-      color: var(--primary);
-    }
-
-    .hero {
-      position: relative;
-      height: 100vh;
-      min-height: 780px;
-      display: flex;
-      align-items: center;
-      color: white;
-      overflow: hidden;
-      margin-top: 88px;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background: #1e293b center/cover no-repeat;
-      z-index: 0;
-    }
-
-    .hero-bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(105deg, rgba(15,23,42,0.92) 0%, rgba(15,23,42,0.75) 45%, rgba(15,23,42,0.45) 100%);
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 720px;
-    }
-
-    .hero-badge {
-      display: inline-block;
-      background: rgba(184,134,11,0.18);
-      border: 1px solid rgba(184,134,11,0.45);
-      color: #e8c547;
-      padding: 10px 22px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      margin-bottom: 28px;
-      text-transform: uppercase;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.8rem, 5.5vw, 4.2rem);
-      color: white;
-      margin-bottom: 24px;
-      letter-spacing: -1px;
-    }
-
-    .hero p {
-      font-size: 1.25rem;
-      opacity: 0.9;
-      margin-bottom: 40px;
-      font-weight: 300;
-      max-width: 560px;
-      line-height: 1.7;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .hero-stats {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 1;
-      background: rgba(15,23,42,0.85);
-      backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      padding: 36px 0;
-    }
-
-    .stat-item {
-      text-align: center;
-      border-right: 1px solid rgba(255,255,255,0.1);
-    }
-    .stat-item:last-child { border-right: none; }
-
-    .stat-number {
-      font-size: 2.2rem;
-      font-weight: 700;
-      font-family: 'Playfair Display', serif;
-      color: var(--accent);
-      margin-bottom: 6px;
-    }
-
-    .stat-label {
-      font-size: 0.9rem;
-      opacity: 0.75;
-      font-weight: 400;
-    }
-
-    section {
-      padding: 120px 0;
-    }
-
-    .section-header {
-      text-align: center;
-      max-width: 680px;
-      margin: 0 auto 72px;
-    }
-
-    .section-header .eyebrow {
-      color: var(--accent);
-      font-weight: 700;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 16px;
-    }
-
-    .section-header h2 {
-      font-size: clamp(2rem, 4vw, 2.8rem);
-      margin-bottom: 18px;
-    }
-
-    .section-header p {
-      color: var(--text-muted);
-      font-size: 1.1rem;
-    }
-
-    .properties-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 36px;
-    }
-
-    .property-card {
-      background: var(--white);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: all 0.35s ease;
-      border: 1px solid var(--border);
-    }
-
-    .property-card:hover {
-      transform: translateY(-10px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .property-image {
-      position: relative;
-      height: 280px;
-      overflow: hidden;
-      background: #e2e8f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      font-weight: 500;
-      text-align: center;
-      padding: 20px;
-    }
-
-    .property-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s ease;
-    }
-
-    .property-card:hover .property-image img {
-      transform: scale(1.05);
-    }
-
-    .property-badge {
-      position: absolute;
-      top: 18px;
-      left: 18px;
-      background: var(--accent);
-      color: white;
-      padding: 7px 16px;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-    .property-price {
-      position: absolute;
-      bottom: 18px;
-      right: 18px;
-      background: var(--primary);
-      color: white;
-      padding: 12px 20px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 1.2rem;
-    }
-
-    .property-body {
-      padding: 32px;
-    }
-
-    .property-body h3 {
-      font-size: 1.4rem;
-      margin-bottom: 10px;
-    }
-
-    .property-location {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 16px;
-    }
-
-    .property-desc {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 20px;
-      line-height: 1.6;
-    }
-
-    .property-features {
-      display: flex;
-      gap: 24px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .services {
-      background: var(--white);
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 32px;
-    }
-
-    .service-card {
-      text-align: center;
-      padding: 48px 28px;
-      border-radius: var(--radius);
-      background: var(--bg);
-      transition: all 0.3s ease;
-      border: 1px solid transparent;
-    }
-
-    .service-card:hover {
-      border-color: var(--border);
-      box-shadow: var(--shadow);
-      transform: translateY(-6px);
-      background: white;
-    }
-
-    .service-icon {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 28px;
-      background: var(--primary);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      color: white;
-      font-weight: 600;
-    }
-
-    .service-card h3 {
-      font-size: 1.3rem;
-      margin-bottom: 14px;
-    }
-
-    .service-card p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.65;
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-
-    .about-image {
-      position: relative;
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-      height: 520px;
-      background: #e2e8f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      font-weight: 500;
-      font-size: 1rem;
-      text-align: center;
-      padding: 20px;
-    }
-
-    .about-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .about-content .eyebrow {
-      color: var(--accent);
-      font-weight: 700;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 16px;
-    }
-
-    .about-content h2 {
-      font-size: 2.5rem;
-      margin-bottom: 24px;
-    }
-
-    .about-content p {
-      color: var(--text-muted);
-      margin-bottom: 18px;
-      font-size: 1.05rem;
-    }
-
-    .about-list {
-      list-style: none;
-      margin: 32px 0;
-    }
-
-    .about-list li {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 16px;
-      font-weight: 500;
-      font-size: 1.05rem;
-    }
-
-    .about-list li span {
-      width: 28px;
-      height: 28px;
-      background: rgba(184,134,11,0.12);
-      color: var(--accent);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .cta {
-      background: var(--primary);
-      color: white;
-      text-align: center;
-      padding: 110px 0;
-    }
-
-    .cta h2 {
-      font-size: clamp(2rem, 4vw, 2.9rem);
-      color: white;
-      margin-bottom: 20px;
-    }
-
-    .cta p {
-      font-size: 1.2rem;
-      opacity: 0.85;
-      max-width: 560px;
-      margin: 0 auto 40px;
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.3fr;
-      gap: 60px;
-    }
-
-    .contact-info h3 {
-      font-size: 1.6rem;
-      margin-bottom: 20px;
-    }
-
-    .contact-info > p {
-      color: var(--text-muted);
-      margin-bottom: 36px;
-      font-size: 1.05rem;
-    }
-
-    .contact-item {
-      display: flex;
-      gap: 18px;
-      margin-bottom: 28px;
-    }
-
-    .contact-icon {
-      width: 54px;
-      height: 54px;
-      background: var(--primary);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      color: white;
-      flex-shrink: 0;
-    }
-
-    .contact-item strong {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 1rem;
-    }
-
-    .contact-item span {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    .contact-form {
-      background: var(--white);
-      padding: 48px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
-    }
-
-    .form-group {
-      margin-bottom: 24px;
-    }
-
-    .form-group label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 10px;
-      font-size: 0.9rem;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      padding: 16px 18px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-family: inherit;
-      font-size: 0.95rem;
-      transition: border-color 0.2s, background 0.2s;
-      background: var(--bg);
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      background: white;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 140px;
-    }
-
-    footer {
-      background: var(--primary);
-      color: rgba(255,255,255,0.75);
-      padding: 90px 0 40px;
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.6fr 1fr 1fr 1fr;
-      gap: 48px;
-      margin-bottom: 60px;
-    }
-
-    .footer-brand .logo {
-      color: white;
-      margin-bottom: 24px;
-    }
-
-    .footer-brand p {
-      font-size: 0.95rem;
-      line-height: 1.75;
-      max-width: 300px;
-    }
-
-    .footer-col h4 {
-      color: white;
-      font-size: 1.05rem;
-      margin-bottom: 24px;
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-    }
-
-    .footer-col ul {
-      list-style: none;
-    }
-
-    .footer-col li {
-      margin-bottom: 14px;
-    }
-
-    .footer-col a {
-      font-size: 0.95rem;
-      transition: color 0.2s;
-    }
-    .footer-col a:hover { color: var(--accent); }
-
-    .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.1);
-      padding-top: 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.9rem;
-    }
-
-    @media (max-width: 1100px) {
-      .properties-grid { grid-template-columns: repeat(2, 1fr); }
-      .services-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 900px) {
-      nav { display: none; }
-      .mobile-toggle { display: block; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 16px 0; }
-      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 48px; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
-      .hero { min-height: 680px; }
-    }
-
-    @media (max-width: 600px) {
-      .properties-grid, .services-grid { grid-template-columns: 1fr; }
-      .form-row { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
-      .hero-stats { display: none; }
-      section { padding: 80px 0; }
-      .container { padding: 0 20px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurea Inmobiliaria | Encuentra tu próximo hogar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0b1426;
+  --navy-2: #132037;
+  --gold: #c9a84c;
+  --gold-dark: #a88b3a;
+  --text: #1a2332;
+  --muted: #5c6b7a;
+  --bg: #f4f6f9;
+  --white: #ffffff;
+  --line: #e3e8ef;
+  --radius: 6px;
+  --success: #0d9488;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.65;
+  font-size: 15.5px;
+  -webkit-font-smoothing: antialiased;
+}
+h1,h2,h3,h4 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--navy);
+}
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+ul { list-style: none; }
+button { font-family: inherit; cursor: pointer; }
+.container { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 28px; border-radius: var(--radius); font-weight: 600;
+  font-size: 0.9rem; letter-spacing: 0.3px; transition: all 0.22s ease;
+  border: none; cursor: pointer;
+}
+.btn-dark { background: var(--navy); color: #fff; }
+.btn-dark:hover { background: var(--navy-2); transform: translateY(-1px); box-shadow: 0 10px 24px rgba(11,20,38,.2); }
+.btn-gold { background: var(--gold); color: var(--navy); }
+.btn-gold:hover { background: var(--gold-dark); transform: translateY(-1px); }
+.btn-ghost { background: transparent; border: 1.5px solid rgba(255,255,255,.7); color: #fff; }
+.btn-ghost:hover { background: #fff; color: var(--navy); }
+.btn-outline { background: transparent; border: 1.5px solid var(--navy); color: var(--navy); }
+.btn-outline:hover { background: var(--navy); color: #fff; }
+.btn-sm { padding: 10px 18px; font-size: 0.85rem; }
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: rgba(255,255,255,.97); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line); height: 78px;
+}
+.header-inner { display: flex; align-items: center; justify-content: space-between; height: 78px; }
+.logo { display: flex; align-items: center; gap: 11px; font-weight: 700; font-size: 1.2rem; color: var(--navy); }
+.logo-mark {
+  width: 40px; height: 40px; background: var(--navy); color: var(--gold);
+  border-radius: 5px; display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700;
+}
+nav { display: flex; align-items: center; gap: 28px; }
+nav a { font-size: 0.9rem; font-weight: 500; color: var(--muted); transition: color .2s; }
+nav a:hover, nav a.active { color: var(--navy); }
+.hero {
+  margin-top: 78px; position: relative; min-height: 520px;
+  display: flex; align-items: center; color: #fff; overflow: hidden;
+  background: linear-gradient(120deg, #0b1426 0%, #1a2d4a 100%);
+}
+.hero-content { position: relative; z-index: 1; max-width: 640px; padding: 70px 0 60px; }
+.hero-label {
+  display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gold); border: 1px solid rgba(201,168,76,.4);
+  padding: 7px 14px; border-radius: 3px; margin-bottom: 22px;
+}
+.hero h1 { font-size: clamp(2.6rem, 5vw, 3.8rem); color: #fff; margin-bottom: 16px; letter-spacing: -.6px; }
+.hero p { font-size: 1.1rem; font-weight: 300; opacity: .88; max-width: 500px; margin-bottom: 32px; }
+.search-box {
+  background: #fff; border-radius: 8px; padding: 10px; display: flex; gap: 8px;
+  box-shadow: 0 16px 40px rgba(0,0,0,.25); max-width: 720px; flex-wrap: wrap;
+}
+.search-box select, .search-box input {
+  flex: 1; min-width: 120px; padding: 12px 14px; border: 1px solid var(--line);
+  border-radius: 5px; font-size: .9rem; font-family: inherit; background: var(--bg);
+}
+.search-box button { flex-shrink: 0; }
+.stats-bar {
+  background: var(--navy); color: #fff; padding: 28px 0;
+}
+.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); text-align: center; }
+.stat strong {
+  display: block; font-family: 'Cormorant Garamond', serif; font-size: 1.9rem;
+  color: var(--gold); margin-bottom: 2px;
+}
+.stat span { font-size: .82rem; opacity: .7; }
+section { padding: 90px 0; }
+.sec-head { text-align: center; max-width: 600px; margin: 0 auto 50px; }
+.sec-label { font-size: .72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.sec-head h2 { font-size: clamp(1.9rem, 3.5vw, 2.5rem); margin-bottom: 12px; }
+.sec-head p { color: var(--muted); font-size: 1rem; }
+.filters {
+  display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 36px; align-items: center;
+  background: #fff; padding: 18px 20px; border-radius: var(--radius); border: 1px solid var(--line);
+}
+.filters select, .filters input {
+  padding: 10px 14px; border: 1px solid var(--line); border-radius: 5px;
+  font-size: .88rem; font-family: inherit; background: var(--bg); min-width: 140px;
+}
+.filters .count { margin-left: auto; font-size: .88rem; color: var(--muted); font-weight: 500; }
+.prop-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px;
+}
+.prop-card {
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  overflow: hidden; transition: transform .3s, box-shadow .3s; cursor: pointer;
+}
+.prop-card:hover { transform: translateY(-7px); box-shadow: 0 20px 44px rgba(11,20,38,.1); }
+.prop-img {
+  position: relative; height: 230px; background: #dce3ec;
+  overflow: hidden;
+}
+.prop-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.prop-card:hover .prop-img img { transform: scale(1.05); }
+.prop-tag {
+  position: absolute; top: 12px; left: 12px; background: var(--gold); color: var(--navy);
+  font-size: .68rem; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+  padding: 5px 10px; border-radius: 3px;
+}
+.prop-type {
+  position: absolute; top: 12px; right: 12px; background: rgba(11,20,38,.85); color: #fff;
+  font-size: .7rem; font-weight: 600; padding: 5px 10px; border-radius: 3px;
+}
+.prop-price {
+  position: absolute; bottom: 12px; left: 12px; background: var(--navy); color: #fff;
+  font-weight: 700; font-size: 1.05rem; padding: 8px 14px; border-radius: 4px;
+}
+.prop-body { padding: 20px 18px 22px; }
+.prop-body h3 { font-size: 1.2rem; margin-bottom: 6px; }
+.prop-loc { font-size: .82rem; color: var(--muted); margin-bottom: 10px; }
+.prop-meta {
+  display: flex; gap: 14px; font-size: .82rem; color: var(--muted); font-weight: 500;
+  padding-top: 12px; border-top: 1px solid var(--line);
+}
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(11,20,38,.65); z-index: 300;
+  display: none; align-items: flex-start; justify-content: center; padding: 40px 20px;
+  overflow-y: auto; backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: #fff; border-radius: 10px; max-width: 920px; width: 100%;
+  box-shadow: 0 30px 80px rgba(0,0,0,.3); position: relative; animation: slideUp .3s ease;
+}
+@keyframes slideUp { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: none; } }
+.modal-close {
+  position: absolute; top: 16px; right: 16px; width: 36px; height: 36px;
+  background: rgba(0,0,0,.5); color: #fff; border: none; border-radius: 50%;
+  font-size: 1.2rem; z-index: 10; display: flex; align-items: center; justify-content: center;
+}
+.modal-gallery {
+  height: 340px; background: #dce3ec; position: relative; border-radius: 10px 10px 0 0; overflow: hidden;
+}
+.modal-gallery img { width: 100%; height: 100%; object-fit: cover; }
+.modal-body { padding: 32px 36px 40px; }
+.modal-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+.modal-header h2 { font-size: 1.9rem; }
+.modal-price { font-size: 1.7rem; font-weight: 700; color: var(--navy); font-family: 'Cormorant Garamond', serif; }
+.modal-tags { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.modal-tags span {
+  background: var(--bg); border: 1px solid var(--line); padding: 5px 12px;
+  border-radius: 4px; font-size: .8rem; font-weight: 500; color: var(--muted);
+}
+.modal-desc { color: var(--muted); margin-bottom: 28px; line-height: 1.7; }
+.modal-features {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 12px;
+  margin-bottom: 32px;
+}
+.modal-features div {
+  background: var(--bg); padding: 12px 14px; border-radius: 5px;
+  font-size: .88rem; font-weight: 500; display: flex; align-items: center; gap: 8px;
+}
+.modal-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.services { background: #fff; }
+.svc-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 22px; }
+.svc-card {
+  text-align: center; padding: 36px 18px; background: var(--bg); border-radius: var(--radius);
+  border: 1px solid transparent; transition: all .25s;
+}
+.svc-card:hover { background: #fff; border-color: var(--line); box-shadow: 0 10px 28px rgba(11,20,38,.06); }
+.svc-icon {
+  width: 56px; height: 56px; margin: 0 auto 18px; background: var(--navy); color: var(--gold);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; font-weight: 700;
+}
+.svc-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+.svc-card p { font-size: .88rem; color: var(--muted); }
+.cta { background: var(--navy); color: #fff; text-align: center; padding: 80px 0; }
+.cta h2 { color: #fff; font-size: clamp(1.9rem, 3.5vw, 2.6rem); margin-bottom: 14px; }
+.cta p { opacity: .8; max-width: 480px; margin: 0 auto 30px; font-size: 1.05rem; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; }
+.contact-info h3 { font-size: 1.4rem; margin-bottom: 12px; }
+.contact-info > p { color: var(--muted); margin-bottom: 28px; }
+.c-item { display: flex; gap: 14px; margin-bottom: 20px; }
+.c-icon {
+  width: 44px; height: 44px; background: var(--navy); color: var(--gold);
+  border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.c-item strong { display: block; font-size: .92rem; }
+.c-item span { color: var(--muted); font-size: .88rem; }
+.contact-form {
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 32px; box-shadow: 0 6px 24px rgba(11,20,38,.04);
+}
+.fg { margin-bottom: 16px; }
+.fg label { display: block; font-weight: 600; font-size: .84rem; margin-bottom: 6px; }
+.fg input, .fg select, .fg textarea {
+  width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 5px;
+  font-family: inherit; font-size: .9rem; background: var(--bg);
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus { outline: none; border-color: var(--navy); background: #fff; }
+.fg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+textarea { min-height: 110px; resize: vertical; }
+footer { background: var(--navy); color: rgba(255,255,255,.7); padding: 70px 0 30px; }
+.foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 36px; margin-bottom: 44px; }
+.foot-brand .logo { color: #fff; margin-bottom: 14px; }
+.foot-brand .logo-mark { background: rgba(255,255,255,.1); }
+.foot-brand p { font-size: .88rem; line-height: 1.7; max-width: 260px; }
+.foot-col h4 { color: #fff; font-family: 'Inter', sans-serif; font-size: .9rem; font-weight: 600; margin-bottom: 16px; }
+.foot-col li { margin-bottom: 9px; }
+.foot-col a { font-size: .88rem; transition: color .2s; }
+.foot-col a:hover { color: var(--gold); }
+.foot-bottom {
+  border-top: 1px solid rgba(255,255,255,.08); padding-top: 24px;
+  display: flex; justify-content: space-between; font-size: .82rem;
+}
+.hidden { display: none !important; }
+.toast {
+  position: fixed; bottom: 28px; right: 28px; background: var(--navy); color: #fff;
+  padding: 16px 24px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  z-index: 400; display: none; font-weight: 500; font-size: .92rem;
+}
+.toast.show { display: block; animation: slideUp .3s ease; }
+@media (max-width: 1000px) {
+  .prop-grid { grid-template-columns: repeat(2,1fr); }
+  .svc-grid { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 800px) {
+  nav { display: none; }
+  .stats-grid { grid-template-columns: repeat(2,1fr); gap: 16px; }
+  .contact-grid, .foot-grid { grid-template-columns: 1fr 1fr; }
+  .about-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .prop-grid, .svc-grid, .foot-grid { grid-template-columns: 1fr; }
+  .fg-row { grid-template-columns: 1fr; }
+  .search-box { flex-direction: column; }
+  .filters { flex-direction: column; align-items: stretch; }
+  .filters .count { margin-left: 0; }
+  .modal-body { padding: 24px 20px; }
+  .hero-content { padding: 50px 0 40px; }
+}
+</style>
 </head>
 <body>
 
-  <header>
-    <div class="container header-inner">
-      <a href="#" class="logo">
-        <div class="logo-icon">[L]</div>
-        <span>[Nombre de la Empresa]</span>
-      </a>
-      <nav>
-        <a href="#propiedades">[Menú 1]</a>
-        <a href="#servicios">[Menú 2]</a>
-        <a href="#nosotros">[Menú 3]</a>
-        <a href="#contacto">[Menú 4]</a>
-        <a href="#contacto" class="btn btn-primary">[Botón Principal Header]</a>
-      </nav>
-      <button class="mobile-toggle" aria-label="Menú">☰</button>
-    </div>
-  </header>
+<header>
+  <div class="container header-inner">
+    <a href="#" class="logo" onclick="showView('home')">
+      <div class="logo-mark">A</div>
+      <span>Aurea Inmobiliaria</span>
+    </a>
+    <nav>
+      <a href="#" onclick="showView('home')" id="nav-home">Inicio</a>
+      <a href="#" onclick="showView('catalog')" id="nav-catalog">Propiedades</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#contacto" class="btn btn-dark btn-sm">Agendar visita</a>
+    </nav>
+  </div>
+</header>
 
+<div id="view-home">
   <section class="hero">
-    <div class="hero-bg"></div>
     <div class="container">
       <div class="hero-content">
-        <div class="hero-badge">[Texto pequeño superior]</div>
-        <h1>[Título principal grande del hero]</h1>
-        <p>[Texto descriptivo del hero. Aquí puedes poner una frase profesional que invite a los clientes a encontrar su propiedad ideal.]</p>
-        <div class="hero-actions">
-          <a href="#propiedades" class="btn btn-accent">[Botón Principal]</a>
-          <a href="#contacto" class="btn btn-outline">[Botón Secundario]</a>
-        </div>
-      </div>
-    </div>
-    <div class="hero-stats">
-      <div class="container">
-        <div class="stats-grid">
-          <div class="stat-item">
-            <div class="stat-number">[Núm 1]</div>
-            <div class="stat-label">[Etiqueta estadística 1]</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">[Núm 2]</div>
-            <div class="stat-label">[Etiqueta estadística 2]</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">[Núm 3]</div>
-            <div class="stat-label">[Etiqueta estadística 3]</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">[Núm 4]</div>
-            <div class="stat-label">[Etiqueta estadística 4]</div>
-          </div>
+        <div class="hero-label">Propiedades exclusivas</div>
+        <h1>Tu próximo hogar te está esperando</h1>
+        <p>Más de 15 años conectando familias con las mejores propiedades del mercado residencial y de inversión.</p>
+        <div class="search-box">
+          <select id="hero-tipo">
+            <option value="">Tipo de propiedad</option>
+            <option value="casa">Casa</option>
+            <option value="departamento">Departamento</option>
+            <option value="terreno">Terreno</option>
+            <option value="local">Local comercial</option>
+          </select>
+          <select id="hero-precio">
+            <option value="">Rango de precio</option>
+            <option value="0-300000">Hasta $300,000</option>
+            <option value="300000-600000">$300,000 – $600,000</option>
+            <option value="600000-1000000">$600,000 – $1,000,000</option>
+            <option value="1000000-99999999">Más de $1,000,000</option>
+          </select>
+          <input type="text" id="hero-ubicacion" placeholder="Ciudad o zona...">
+          <button class="btn btn-gold" onclick="buscarDesdeHero()">Buscar</button>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="propiedades">
+  <div class="stats-bar">
     <div class="container">
-      <div class="section-header">
-        <div class="eyebrow">[Texto pequeño sección]</div>
-        <h2>[Título de la sección de propiedades]</h2>
-        <p>[Descripción corta de la sección de propiedades destacadas.]</p>
+      <div class="stats-grid">
+        <div class="stat"><strong>+920</strong><span>Propiedades vendidas</span></div>
+        <div class="stat"><strong>+1,400</strong><span>Clientes satisfechos</span></div>
+        <div class="stat"><strong>16</strong><span>Años de experiencia</span></div>
+        <div class="stat"><strong>98%</strong><span>Recomendación</span></div>
       </div>
+    </div>
+  </div>
 
-      <div class="properties-grid">
-
-        <article class="property-card">
-          <div class="property-image">
-            [pon aquí tu imagen]
-            <span class="property-badge">[Etiqueta]</span>
-            <div class="property-price">[Precio]</div>
-          </div>
-          <div class="property-body">
-            <h3>[Nombre de la propiedad]</h3>
-            <div class="property-location">📍 [Ubicación]</div>
-            <p class="property-desc">[Descripción corta de la propiedad. Características principales y atractivos.]</p>
-            <div class="property-features">
-              <div>[Habitaciones]</div>
-              <div>[Baños]</div>
-              <div>[Metros]</div>
-            </div>
-          </div>
-        </article>
-
-        <article class="property-card">
-          <div class="property-image">
-            [pon aquí tu imagen]
-            <span class="property-badge">[Etiqueta]</span>
-            <div class="property-price">[Precio]</div>
-          </div>
-          <div class="property-body">
-            <h3>[Nombre de la propiedad]</h3>
-            <div class="property-location">📍 [Ubicación]</div>
-            <p class="property-desc">[Descripción corta de la propiedad. Características principales y atractivos.]</p>
-            <div class="property-features">
-              <div>[Habitaciones]</div>
-              <div>[Baños]</div>
-              <div>[Metros]</div>
-            </div>
-          </div>
-        </article>
-
-        <article class="property-card">
-          <div class="property-image">
-            [pon aquí tu imagen]
-            <span class="property-badge">[Etiqueta]</span>
-            <div class="property-price">[Precio]</div>
-          </div>
-          <div class="property-body">
-            <h3>[Nombre de la propiedad]</h3>
-            <div class="property-location">📍 [Ubicación]</div>
-            <p class="property-desc">[Descripción corta de la propiedad. Características principales y atractivos.]</p>
-            <div class="property-features">
-              <div>[Habitaciones]</div>
-              <div>[Baños]</div>
-              <div>[Metros]</div>
-            </div>
-          </div>
-        </article>
-
-        <article class="property-card">
-          <div class="property-image">
-            [pon aquí tu imagen]
-            <span class="property-badge">[Etiqueta]</span>
-            <div class="property-price">[Precio]</div>
-          </div>
-          <div class="property-body">
-            <h3>[Nombre de la propiedad]</h3>
-            <div class="property-location">📍 [Ubicación]</div>
-            <p class="property-desc">[Descripción corta de la propiedad. Características principales y atractivos.]</p>
-            <div class="property-features">
-              <div>[Habitaciones]</div>
-              <div>[Baños]</div>
-              <div>[Metros]</div>
-            </div>
-          </div>
-        </article>
-
-        <article class="property-card">
-          <div class="property-image">
-            [pon aquí tu imagen]
-            <span class="property-badge">[Etiqueta]</span>
-            <div class="property-price">[Precio]</div>
-          </div>
-          <div class="property-body">
-            <h3>[Nombre de la propiedad]</h3>
-            <div class="property-location">📍 [Ubicación]</div>
-            <p class="property-desc">[Descripción corta de la propiedad. Características principales y atractivos.]</p>
-            <div class="property-features">
-              <div>[Habitaciones]</div>
-              <div>[Baños]</div>
-              <div>[Metros]</div>
-            </div>
-          </div>
-        </article>
-
-        <article class="property-card">
-          <div class="property-image">
-            [pon aquí tu imagen]
-            <span class="property-badge">[Etiqueta]</span>
-            <div class="property-price">[Precio]</div>
-          </div>
-          <div class="property-body">
-            <h3>[Nombre de la propiedad]</h3>
-            <div class="property-location">📍 [Ubicación]</div>
-            <p class="property-desc">[Descripción corta de la propiedad. Características principales y atractivos.]</p>
-            <div class="property-features">
-              <div>[Habitaciones]</div>
-              <div>[Baños]</div>
-              <div>[Metros]</div>
-            </div>
-          </div>
-        </article>
-
+  <section>
+    <div class="container">
+      <div class="sec-head">
+        <div class="sec-label">Selección destacada</div>
+        <h2>Propiedades en evidencia</h2>
+        <p>Una muestra de las mejores oportunidades disponibles actualmente.</p>
+      </div>
+      <div class="prop-grid" id="featured-grid"></div>
+      <div style="text-align:center;margin-top:40px">
+        <button class="btn btn-dark" onclick="showView('catalog')">Ver todas las propiedades</button>
       </div>
     </div>
   </section>
 
-  <section id="servicios" class="services">
+  <section class="services" id="servicios">
     <div class="container">
-      <div class="section-header">
-        <div class="eyebrow">[Texto pequeño sección]</div>
-        <h2>[Título de la sección de servicios]</h2>
-        <p>[Descripción corta de los servicios que ofrece la empresa.]</p>
+      <div class="sec-head">
+        <div class="sec-label">Nuestros servicios</div>
+        <h2>Soluciones integrales</h2>
+        <p>Acompañamos cada etapa de tu operación inmobiliaria.</p>
       </div>
-
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="service-icon">[Icono]</div>
-          <h3>[Nombre del servicio 1]</h3>
-          <p>[Descripción del servicio 1. Explica el valor que aportas al cliente.]</p>
+      <div class="svc-grid">
+        <div class="svc-card">
+          <div class="svc-icon">01</div>
+          <h3>Compra</h3>
+          <p>Encontramos la propiedad ideal según tu presupuesto, zona y estilo de vida.</p>
         </div>
-        <div class="service-card">
-          <div class="service-icon">[Icono]</div>
-          <h3>[Nombre del servicio 2]</h3>
-          <p>[Descripción del servicio 2. Explica el valor que aportas al cliente.]</p>
+        <div class="svc-card">
+          <div class="svc-icon">02</div>
+          <h3>Venta</h3>
+          <p>Valoración profesional, marketing premium y red de compradores cualificados.</p>
         </div>
-        <div class="service-card">
-          <div class="service-icon">[Icono]</div>
-          <h3>[Nombre del servicio 3]</h3>
-          <p>[Descripción del servicio 3. Explica el valor que aportas al cliente.]</p>
+        <div class="svc-card">
+          <div class="svc-icon">03</div>
+          <h3>Alquiler</h3>
+          <p>Gestión completa: búsqueda de inquilinos, contratos y administración.</p>
         </div>
-        <div class="service-card">
-          <div class="service-icon">[Icono]</div>
-          <h3>[Nombre del servicio 4]</h3>
-          <p>[Descripción del servicio 4. Explica el valor que aportas al cliente.]</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="nosotros">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-image">
-          [pon aquí tu imagen]
-        </div>
-        <div class="about-content">
-          <div class="eyebrow">[Texto pequeño sección]</div>
-          <h2>[Título de la sección nosotros]</h2>
-          <p>[Párrafo 1 sobre la empresa. Habla de experiencia, valores y diferenciadores.]</p>
-          <p>[Párrafo 2 sobre la empresa. Refuerza confianza y profesionalismo.]</p>
-          <ul class="about-list">
-            <li><span>✓</span> [Punto fuerte 1]</li>
-            <li><span>✓</span> [Punto fuerte 2]</li>
-            <li><span>✓</span> [Punto fuerte 3]</li>
-            <li><span>✓</span> [Punto fuerte 4]</li>
-          </ul>
-          <a href="#contacto" class="btn btn-primary">[Botón sección nosotros]</a>
+        <div class="svc-card">
+          <div class="svc-icon">04</div>
+          <h3>Inversión</h3>
+          <p>Análisis de rentabilidad y oportunidades de alto potencial para inversores.</p>
         </div>
       </div>
     </div>
@@ -964,135 +376,419 @@
 
   <section class="cta">
     <div class="container">
-      <h2>[Título del llamado a la acción]</h2>
-      <p>[Texto que invite a contactar o agendar una cita.]</p>
-      <a href="#contacto" class="btn btn-accent">[Botón del CTA]</a>
+      <h2>¿Listo para dar el siguiente paso?</h2>
+      <p>Agenda una consulta gratuita con uno de nuestros asesores especializados.</p>
+      <a href="#contacto" class="btn btn-gold">Solicitar asesoría</a>
     </div>
   </section>
+</div>
 
-  <section id="contacto">
+<div id="view-catalog" class="hidden">
+  <section style="padding-top:120px">
     <div class="container">
-      <div class="section-header">
-        <div class="eyebrow">[Texto pequeño sección]</div>
-        <h2>[Título de la sección de contacto]</h2>
-        <p>[Descripción corta invitando a contactar.]</p>
+      <div class="sec-head">
+        <div class="sec-label">Catálogo completo</div>
+        <h2>Todas las propiedades</h2>
+        <p>Filtra por tipo, precio, habitaciones o ubicación y encuentra exactamente lo que buscas.</p>
       </div>
 
-      <div class="contact-grid">
-        <div class="contact-info">
-          <h3>[Título información de contacto]</h3>
-          <p>[Texto introductorio de contacto.]</p>
-
-          <div class="contact-item">
-            <div class="contact-icon">📍</div>
-            <div>
-              <strong>[Etiqueta dirección]</strong>
-              <span>[Dirección completa]<br>[Ciudad, País]</span>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon">📞</div>
-            <div>
-              <strong>[Etiqueta teléfono]</strong>
-              <span>[Número de teléfono]</span>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon">✉️</div>
-            <div>
-              <strong>[Etiqueta correo]</strong>
-              <span>[correo@empresa.com]</span>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon">🕒</div>
-            <div>
-              <strong>[Etiqueta horario]</strong>
-              <span>[Horario de atención]<br>[Días y horas]</span>
-            </div>
-          </div>
-        </div>
-
-        <form class="contact-form" onsubmit="event.preventDefault();">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="nombre">[Etiqueta nombre]</label>
-              <input type="text" id="nombre" placeholder="[Placeholder nombre]">
-            </div>
-            <div class="form-group">
-              <label for="email">[Etiqueta email]</label>
-              <input type="email" id="email" placeholder="[Placeholder email]">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="telefono">[Etiqueta teléfono]</label>
-              <input type="tel" id="telefono" placeholder="[Placeholder teléfono]">
-            </div>
-            <div class="form-group">
-              <label for="interes">[Etiqueta interés]</label>
-              <select id="interes">
-                <option value="">[Opción por defecto]</option>
-                <option value="1">[Opción 1]</option>
-                <option value="2">[Opción 2]</option>
-                <option value="3">[Opción 3]</option>
-                <option value="4">[Opción 4]</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="mensaje">[Etiqueta mensaje]</label>
-            <textarea id="mensaje" placeholder="[Placeholder mensaje]"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%;">[Texto del botón enviar]</button>
-        </form>
+      <div class="filters">
+        <select id="filter-tipo" onchange="aplicarFiltros()">
+          <option value="">Todos los tipos</option>
+          <option value="casa">Casa</option>
+          <option value="departamento">Departamento</option>
+          <option value="terreno">Terreno</option>
+          <option value="local">Local comercial</option>
+        </select>
+        <select id="filter-precio" onchange="aplicarFiltros()">
+          <option value="">Cualquier precio</option>
+          <option value="0-300000">Hasta $300,000</option>
+          <option value="300000-600000">$300k – $600k</option>
+          <option value="600000-1000000">$600k – $1M</option>
+          <option value="1000000-99999999">Más de $1M</option>
+        </select>
+        <select id="filter-hab" onchange="aplicarFiltros()">
+          <option value="">Habitaciones</option>
+          <option value="1">1+</option>
+          <option value="2">2+</option>
+          <option value="3">3+</option>
+          <option value="4">4+</option>
+        </select>
+        <input type="text" id="filter-texto" placeholder="Buscar por nombre o zona..." oninput="aplicarFiltros()">
+        <span class="count" id="result-count">0 propiedades</span>
       </div>
+
+      <div class="prop-grid" id="catalog-grid"></div>
     </div>
   </section>
+</div>
 
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="#" class="logo">
-            <div class="logo-icon">[L]</div>
-            <span>[Nombre de la Empresa]</span>
-          </a>
-          <p>[Texto corto de la empresa en el footer. Descripción breve y profesional.]</p>
+<section id="contacto" style="background:var(--bg)">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-label">Contacto</div>
+      <h2>Hablemos de tu próximo proyecto</h2>
+      <p>Completa el formulario y un asesor te contactará en menos de 24 horas.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Oficina principal</h3>
+        <p>Estamos listos para ayudarte a comprar, vender o invertir con total transparencia.</p>
+        <div class="c-item">
+          <div class="c-icon">📍</div>
+          <div><strong>Dirección</strong><span>Av. Reforma 450, Piso 12<br>Ciudad de México, CDMX</span></div>
         </div>
-        <div class="footer-col">
-          <h4>[Columna 1 título]</h4>
-          <ul>
-            <li><a href="#propiedades">[Enlace 1]</a></li>
-            <li><a href="#servicios">[Enlace 2]</a></li>
-            <li><a href="#nosotros">[Enlace 3]</a></li>
-            <li><a href="#contacto">[Enlace 4]</a></li>
-          </ul>
+        <div class="c-item">
+          <div class="c-icon">📞</div>
+          <div><strong>Teléfono</strong><span>+52 55 1234 5678</span></div>
         </div>
-        <div class="footer-col">
-          <h4>[Columna 2 título]</h4>
-          <ul>
-            <li><a href="#">[Enlace 1]</a></li>
-            <li><a href="#">[Enlace 2]</a></li>
-            <li><a href="#">[Enlace 3]</a></li>
-            <li><a href="#">[Enlace 4]</a></li>
-          </ul>
+        <div class="c-item">
+          <div class="c-icon">✉️</div>
+          <div><strong>Correo</strong><span>contacto@aureainmobiliaria.com</span></div>
         </div>
-        <div class="footer-col">
-          <h4>[Columna 3 título]</h4>
-          <ul>
-            <li><a href="#">[Enlace 1]</a></li>
-            <li><a href="#">[Enlace 2]</a></li>
-            <li><a href="#">[Enlace 3]</a></li>
-          </ul>
+        <div class="c-item">
+          <div class="c-icon">🕒</div>
+          <div><strong>Horario</strong><span>Lun – Vie: 9:00 – 19:00<br>Sáb: 10:00 – 14:00</span></div>
         </div>
       </div>
-      <div class="footer-bottom">
-        <span>© [Año] [Nombre de la Empresa]. [Texto derechos reservados]</span>
-        <span>[Texto adicional footer]</span>
+      <form class="contact-form" onsubmit="enviarFormulario(event)">
+        <div class="fg-row">
+          <div class="fg"><label>Nombre completo</label><input type="text" required placeholder="Tu nombre"></div>
+          <div class="fg"><label>Correo electrónico</label><input type="email" required placeholder="tu@email.com"></div>
+        </div>
+        <div class="fg-row">
+          <div class="fg"><label>Teléfono</label><input type="tel" placeholder="+52 ..."></div>
+          <div class="fg">
+            <label>Me interesa</label>
+            <select>
+              <option>Comprar propiedad</option>
+              <option>Vender propiedad</option>
+              <option>Alquilar</option>
+              <option>Inversión</option>
+              <option>Otro</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg"><label>Mensaje</label><textarea placeholder="Cuéntanos qué estás buscando..."></textarea></div>
+        <button type="submit" class="btn btn-dark" style="width:100%">Enviar mensaje</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="logo"><div class="logo-mark">A</div><span>Aurea Inmobiliaria</span></a>
+        <p>Especialistas en propiedades residenciales y de inversión. Transparencia, experiencia y resultados.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="#" onclick="showView('home')">Inicio</a></li>
+          <li><a href="#" onclick="showView('catalog')">Propiedades</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="#servicios">Compra</a></li>
+          <li><a href="#servicios">Venta</a></li>
+          <li><a href="#servicios">Alquiler</a></li>
+          <li><a href="#servicios">Inversión</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Aviso de privacidad</a></li>
+          <li><a href="#">Términos de uso</a></li>
+          <li><a href="#">Política de cookies</a></li>
+        </ul>
       </div>
     </div>
-  </footer>
+    <div class="foot-bottom">
+      <span>© 2026 Aurea Inmobiliaria. Todos los derechos reservados.</span>
+      <span>Diseñado para resultados reales</span>
+    </div>
+  </div>
+</footer>
 
+<div class="modal-overlay" id="modal" onclick="cerrarModal(event)">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const propiedades = [
+  {
+    id: 1,
+    nombre: "Residencia Moderna Vista Jardín",
+    tipo: "casa",
+    precio: 485000,
+    ubicacion: "Polanco, CDMX",
+    hab: 4, banos: 3, m2: 280,
+    tag: "Nueva",
+    img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80",
+    desc: "Espectacular residencia de diseño contemporáneo con amplios espacios, cocina de lujo integrada, jardín privado y acabados de primera calidad. Ideal para familias que buscan comodidad y estilo en una de las mejores zonas de la ciudad.",
+    extras: ["Estacionamiento 2 autos", "Jardín privado", "Cocina equipada", "Seguridad 24h", "Clósets walk-in", "Terraza"]
+  },
+  {
+    id: 2,
+    nombre: "Villa de Lujo con Piscina",
+    tipo: "casa",
+    precio: 1250000,
+    ubicacion: "Santa Fe, CDMX",
+    hab: 5, banos: 4.5, m2: 420,
+    tag: "Exclusiva",
+    img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=900&q=80",
+    desc: "Villa de alto standing con piscina infinita, vistas panorámicas, amplias terrazas y acabados de lujo. Perfecta para quienes buscan privacidad y exclusividad en un entorno privilegiado.",
+    extras: ["Piscina", "Vista panorámica", "Cine en casa", "Bodega de vinos", "Estacionamiento 4 autos", "Jardín"]
+  },
+  {
+    id: 3,
+    nombre: "Departamento Premium Reforma",
+    tipo: "departamento",
+    precio: 320000,
+    ubicacion: "Av. Reforma, CDMX",
+    hab: 2, banos: 2, m2: 125,
+    tag: "Oportunidad",
+    img: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=900&q=80",
+    desc: "Moderno departamento en torre de lujo sobre Avenida Reforma. Acabados premium, amenidades completas y excelente conectividad. Ideal para profesionales o inversión.",
+    extras: ["Gimnasio", "Roof garden", "Seguridad 24h", "Estacionamiento", "Lock off", "Área de coworking"]
+  },
+  {
+    id: 4,
+    nombre: "Penthouse con Terraza Privada",
+    tipo: "departamento",
+    precio: 890000,
+    ubicacion: "Lomas de Chapultepec",
+    hab: 3, banos: 3, m2: 240,
+    tag: "Premium",
+    img: "https://images.unsplash.com/photo-1600210492493-0946911123ea?w=900&q=80",
+    desc: "Exclusivo penthouse con amplia terraza privada, vistas espectaculares y acabados de alto nivel. Espacios diseñados para el disfrute y el entretenimiento.",
+    extras: ["Terraza 80m²", "Vista 360°", "Cocina de diseño", "Estacionamiento 3", "Bodega", "Amenidades premium"]
+  },
+  {
+    id: 5,
+    nombre: "Casa Familiar Contemporánea",
+    tipo: "casa",
+    precio: 375000,
+    ubicacion: "Coyoacán, CDMX",
+    hab: 3, banos: 2.5, m2: 210,
+    tag: "Destacada",
+    img: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=900&q=80",
+    desc: "Hermosa casa familiar en zona tranquila y consolidada. Espacios luminosos, patio trasero ideal para reuniones y excelente ubicación cerca de escuelas y parques.",
+    extras: ["Patio trasero", "Estacionamiento 2", "Cuarto de servicio", "Cocina amplia", "Closets", "Seguridad"]
+  },
+  {
+    id: 6,
+    nombre: "Casa Minimalista de Diseño",
+    tipo: "casa",
+    precio: 560000,
+    ubicacion: "Interlomas",
+    hab: 4, banos: 3, m2: 310,
+    tag: "Nueva",
+    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80",
+    desc: "Diseño limpio y funcional con grandes ventanales, integración interior-exterior y alta eficiencia energética. Ideal para amantes del diseño contemporáneo.",
+    extras: ["Domótica", "Paneles solares", "Jardín", "Estacionamiento 3", "Estudio", "Terraza"]
+  },
+  {
+    id: 7,
+    nombre: "Departamento Vista Parque",
+    tipo: "departamento",
+    precio: 245000,
+    ubicacion: "Condesa, CDMX",
+    hab: 2, banos: 1, m2: 95,
+    tag: "Oportunidad",
+    img: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=900&q=80",
+    desc: "Encantador departamento con vista al parque, en una de las zonas más vibrantes y cotizadas de la ciudad. Perfecto para vivir o rentar.",
+    extras: ["Vista parque", "Balcón", "Estacionamiento", "Seguridad", "Cerca de todo", "Remodelado"]
+  },
+  {
+    id: 8,
+    nombre: "Terreno Residencial Premium",
+    tipo: "terreno",
+    precio: 420000,
+    ubicacion: "Juriquilla, Querétaro",
+    hab: 0, banos: 0, m2: 850,
+    tag: "Inversión",
+    img: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=900&q=80",
+    desc: "Excelente terreno plano en zona de alto crecimiento residencial. Ideal para desarrollar casa de lujo o proyecto de inversión. Todos los servicios disponibles.",
+    extras: ["850 m²", "Todos los servicios", "Zona residencial", "Acceso controlado", "Listo para construir", "Plusvalía"]
+  },
+  {
+    id: 9,
+    nombre: "Local Comercial Centro",
+    tipo: "local",
+    precio: 680000,
+    ubicacion: "Centro Histórico",
+    hab: 0, banos: 2, m2: 180,
+    tag: "Comercial",
+    img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=80",
+    desc: "Local comercial de alto tráfico en zona céntrica consolidada. Ideal para restaurante, boutique o servicios. Excelente visibilidad y aforo.",
+    extras: ["Alto tráfico", "Escaparate amplio", "Baños", "Almacén", "Permisos al día", "Esquina"]
+  },
+  {
+    id: 10,
+    nombre: "Residencia Elegante con Patio",
+    tipo: "casa",
+    precio: 720000,
+    ubicacion: "San Ángel, CDMX",
+    hab: 4, banos: 3.5, m2: 350,
+    tag: "Destacada",
+    img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80",
+    desc: "Amplia residencia con patio interior, acabados premium y espacios generosos. Ubicada en una de las colonias más tradicionales y seguras de la ciudad.",
+    extras: ["Patio interior", "Estacionamiento 3", "Cuarto de servicio", "Biblioteca", "Jardín", "Bodega"]
+  }
+];
+
+function formatPrecio(n) {
+  return '$' + n.toLocaleString('en-US');
+}
+
+function tipoLabel(t) {
+  const map = { casa: 'Casa', departamento: 'Departamento', terreno: 'Terreno', local: 'Local' };
+  return map[t] || t;
+}
+
+function crearCard(p) {
+  return `
+    <article class="prop-card" onclick="abrirDetalle(${p.id})">
+      <div class="prop-img">
+        <img src="${p.img}" alt="${p.nombre}" loading="lazy">
+        <span class="prop-tag">${p.tag}</span>
+        <span class="prop-type">${tipoLabel(p.tipo)}</span>
+        <div class="prop-price">${formatPrecio(p.precio)}</div>
+      </div>
+      <div class="prop-body">
+        <h3>${p.nombre}</h3>
+        <div class="prop-loc">📍 ${p.ubicacion}</div>
+        <div class="prop-meta">
+          ${p.hab ? `<span>🛏 ${p.hab} Hab</span>` : ''}
+          ${p.banos ? `<span>🛁 ${p.banos} Baños</span>` : ''}
+          <span>📐 ${p.m2} m²</span>
+        </div>
+      </div>
+    </article>`;
+}
+
+function renderFeatured() {
+  const destacadas = propiedades.slice(0, 6);
+  document.getElementById('featured-grid').innerHTML = destacadas.map(crearCard).join('');
+}
+
+function aplicarFiltros() {
+  const tipo = document.getElementById('filter-tipo')?.value || '';
+  const precio = document.getElementById('filter-precio')?.value || '';
+  const hab = parseInt(document.getElementById('filter-hab')?.value || '0');
+  const texto = (document.getElementById('filter-texto')?.value || '').toLowerCase();
+
+  let lista = propiedades.filter(p => {
+    if (tipo && p.tipo !== tipo) return false;
+    if (hab && p.hab < hab) return false;
+    if (texto && !(`${p.nombre} ${p.ubicacion}`.toLowerCase().includes(texto))) return false;
+    if (precio) {
+      const [min, max] = precio.split('-').map(Number);
+      if (p.precio < min || p.precio > max) return false;
+    }
+    return true;
+  });
+
+  document.getElementById('catalog-grid').innerHTML = lista.length
+    ? lista.map(crearCard).join('')
+    : '<p style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0">No se encontraron propiedades con esos filtros.</p>';
+  document.getElementById('result-count').textContent = lista.length + ' propiedad' + (lista.length !== 1 ? 'es' : '');
+}
+
+function showView(view) {
+  document.getElementById('view-home').classList.toggle('hidden', view !== 'home');
+  document.getElementById('view-catalog').classList.toggle('hidden', view !== 'catalog');
+  document.getElementById('nav-home')?.classList.toggle('active', view === 'home');
+  document.getElementById('nav-catalog')?.classList.toggle('active', view === 'catalog');
+  if (view === 'catalog') aplicarFiltros();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function buscarDesdeHero() {
+  const tipo = document.getElementById('hero-tipo').value;
+  const precio = document.getElementById('hero-precio').value;
+  const ubic = document.getElementById('hero-ubicacion').value;
+  showView('catalog');
+  setTimeout(() => {
+    if (tipo) document.getElementById('filter-tipo').value = tipo;
+    if (precio) document.getElementById('filter-precio').value = precio;
+    if (ubic) document.getElementById('filter-texto').value = ubic;
+    aplicarFiltros();
+  }, 50);
+}
+
+function abrirDetalle(id) {
+  const p = propiedades.find(x => x.id === id);
+  if (!p) return;
+  const extras = p.extras.map(e => `<div>✓ ${e}</div>`).join('');
+  document.getElementById('modal-content').innerHTML = `
+    <button class="modal-close" onclick="cerrarModal()">×</button>
+    <div class="modal-gallery"><img src="${p.img}" alt="${p.nombre}"></div>
+    <div class="modal-body">
+      <div class="modal-tags">
+        <span>${tipoLabel(p.tipo)}</span>
+        <span>${p.tag}</span>
+        <span>📍 ${p.ubicacion}</span>
+      </div>
+      <div class="modal-header">
+        <h2>${p.nombre}</h2>
+        <div class="modal-price">${formatPrecio(p.precio)}</div>
+      </div>
+      <p class="modal-desc">${p.desc}</p>
+      <div class="modal-features">
+        ${p.hab ? `<div>🛏 ${p.hab} Habitaciones</div>` : ''}
+        ${p.banos ? `<div>🛁 ${p.banos} Baños</div>` : ''}
+        <div>📐 ${p.m2} m²</div>
+        ${extras}
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-gold" onclick="interesCompra(${p.id})">Quiero comprar / Agendar visita</button>
+        <button class="btn btn-outline" onclick="cerrarModal(); document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Contactar asesor</button>
+      </div>
+    </div>`;
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarModal(e) {
+  if (e && e.target !== document.getElementById('modal') && !e.target.classList.contains('modal-close')) return;
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function interesCompra(id) {
+  const p = propiedades.find(x => x.id === id);
+  cerrarModal();
+  mostrarToast(`¡Excelente elección! Un asesor te contactará sobre "${p.nombre}" en breve.`);
+  setTimeout(() => document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' }), 600);
+}
+
+function enviarFormulario(e) {
+  e.preventDefault();
+  mostrarToast('Mensaje enviado correctamente. Te contactaremos pronto.');
+  e.target.reset();
+}
+
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarModal(); });
+
+renderFeatured();
+</script>
 </body>
 </html>
